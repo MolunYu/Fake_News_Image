@@ -7,7 +7,7 @@ import torchvision.transforms as transform
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-num_epochs = 100
+num_epochs = 30
 num_classes = 2
 batch_size = 64
 learning_rate = 0.0001
@@ -44,7 +44,7 @@ for epoch in range(num_epochs):
         if (i + 1) % 10 == 0:
             print("Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}".format(epoch, num_epochs, i + 1, total_step, loss.item()))
 
-    if (epoch + 1) % 20 == 0:
+    if (epoch + 1) % 10 == 0:
         torch.save(model.state_dict(), "../data/model/params_epoch{}_lr{}.ckpt".format(epoch + 1, learning_rate))
 
 # Test

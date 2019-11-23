@@ -22,8 +22,8 @@ Fake_News_Image
 
 ## Baseline
 ```text
-Test Accuracy of the model on the test images: 90.35 %
-Test Precision of the model on the test images: 89.11 %
-Test Recall of the model on the test images: 86.43 %
-Test F1-score of the model on the test images: 87.75 %
+Test Accuracy of the model on the test images: 90.94 %
+Test Precision of the model on the test images: 91.11 %
+Test Recall of the model on the test images: 85.69 %
+Test F1-score of the model on the test images: 88.32 %
 ```

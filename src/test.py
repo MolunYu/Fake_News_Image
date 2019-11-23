@@ -4,7 +4,7 @@ from FakeNewsDataset import FakeNewsDataset
 import torch.utils.data as data
 import torchvision
 import torchvision.transforms as transform
-from bar import bar
+from tqdm import tqdm
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -16,7 +16,7 @@ test_loader = data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuff
 
 model = torchvision.models.resnet50(pretrained=True)
 model.fc = nn.Linear(model.fc.in_features, 2)
-model.load_state_dict(torch.load("../data/model/params_epoch60.ckpt"))
+model.load_state_dict(torch.load("../data/model/params_epoch30_lr0.0001.ckpt"))
 model.to(device)
 
 # Test
@@ -26,7 +26,7 @@ with torch.no_grad():
     total = 0
     TP = FP = FN = 0
 
-    for images, labels in bar(test_loader):
+    for images, labels in tqdm(test_loader):
         images = images.to(device)
         labels = labels.to(device)
 
