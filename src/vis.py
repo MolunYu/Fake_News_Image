@@ -40,7 +40,7 @@ X = TSNE(n_components=2).fit_transform(features)
 labels = torch.Tensor.cpu(torch.cat(label_list, 0))
 
 plt.figure()
-for i, _ in enumerate(X):
+for i in tqdm(range(len(X))):
     if labels[i].item() == 0:
         plt.plot(X[i, 0], X[i, 1], 'r.')
     else:
