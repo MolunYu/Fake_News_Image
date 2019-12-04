@@ -35,3 +35,10 @@ Test Precision of the model on the test images: 90.97 %
 Test Recall of the model on the test images: 87.97 %
 Test F1-score of the model on the test images: 89.44 %
 ```
+### Resnet50 with fft(256 dim by resnet18)
+```text
+Test Accuracy of the model on the test images: 92.46 %
+Test Precision of the model on the test images: 91.58 %
+Test Recall of the model on the test images: 89.36 %
+Test F1-score of the model on the test images: 90.46 %
+```

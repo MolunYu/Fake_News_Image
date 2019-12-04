@@ -4,7 +4,7 @@ from FakeNewsDataset import FakeNewsDataset
 import torch.utils.data as data
 import torchvision
 import torchvision.transforms as transform
-from resnet_copy import resnet50
+from resnet_copy import resnet50, resnet18
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -28,35 +28,11 @@ class FFTNet(nn.Module):
     def __init__(self, num_class=2) -> None:
         super().__init__()
 
-        self.conv1 = conv3x3(1, 32)
-        self.bn1 = nn.BatchNorm2d(32)
-        self.conv2 = conv3x3(32, 64)
-        self.bn2 = nn.BatchNorm2d(64)
-        self.conv3 = conv3x3(64, 128)
-        self.bn3 = nn.BatchNorm2d(128)
-        self.relu = nn.ReLU(inplace=True)
-        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.fc = nn.Linear(128, num_class)
+        self.backbone = resnet18(pretrained=True)
+        self.backbone.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
 
     def forward(self, x):
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.relu(out)
-        out = self.maxpool(out)
-
-        out = self.conv2(out)
-        out = self.bn2(out)
-        out = self.relu(out)
-        out = self.maxpool(out)
-
-        out = self.conv3(out)
-        out = self.bn3(out)
-        out = self.relu(out)
-
-        out = self.avgpool(out)
-        out = torch.flatten(out, 1)
-        # out = self.fc(out)
+        out = self.backbone(x)
 
         return out
 
@@ -67,7 +43,7 @@ class FakeNewsModel(nn.Module):
 
         self.resnet = resnet50(pretrained=True)
         self.fft = FFTNet()
-        self.fc = nn.Linear(2048 + 128, 2)
+        self.fc = nn.Linear(2048 + 512, 2)
 
     def forward(self, *args):
         semantic_feature = self.resnet(args[0])
@@ -75,4 +51,4 @@ class FakeNewsModel(nn.Module):
         feature = torch.cat((semantic_feature, physical_feature), 1)
         out = self.fc(feature)
 
-        return out
+        return out, feature

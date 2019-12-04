@@ -18,7 +18,6 @@ train_dataset = FakeNewsDataset(train=True, transform=transform)
 train_loader = data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
 
 model = FakeNewsModel()
-model.load_state_dict(torch.load("../data/model/resnet101_epoch20_lr0.001.ckpt"))
 model = model.to(device)
 
 criterion = nn.CrossEntropyLoss()
@@ -46,4 +45,4 @@ for epoch in range(num_epochs):
     scheduler.step()
 
     if (epoch + 1) % 20 == 0:
-        torch.save(model.state_dict(), "../data/model/resnet50_fft_epoch{}_lr{}.pth".format(epoch + 1, learning_rate))
+        torch.save(model.state_dict(), "../data/model/resnet50_fft_resnet18_epoch{}_lr{}.pth".format(epoch + 1, learning_rate))

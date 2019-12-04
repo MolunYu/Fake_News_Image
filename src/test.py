@@ -14,7 +14,7 @@ test_dataset = FakeNewsDataset(train=False, transform=transform)
 test_loader = data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
 
 model = FakeNewsModel()
-model.load_state_dict(torch.load("../data/model/resnet50_fft_epoch100_lr0.001.pth"))
+model.load_state_dict(torch.load("../data/model/resnet50_fft_resnet18_epoch80_lr0.001.pth"))
 model = model.to(device)
 
 # Test
