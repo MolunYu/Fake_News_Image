@@ -1,8 +1,7 @@
 import torch
-import torch.nn as nn
 from FakeNewsDataset import FakeNewsDataset
+from FakeNewModel import FakeNewsModel
 import torch.utils.data as data
-import torchvision
 import torchvision.transforms as transform
 from tqdm import tqdm
 
@@ -12,12 +11,11 @@ batch_size = 64
 transform = transform.Compose([transform.Resize((224, 224)), transform.ToTensor()])
 
 test_dataset = FakeNewsDataset(train=False, transform=transform)
-test_loader = data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True)
+test_loader = data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
 
-model = torchvision.models.resnet50(pretrained=True)
-model.fc = nn.Linear(model.fc.in_features, 2)
-model.load_state_dict(torch.load("../data/model/params_epoch30_lr0.0001.ckpt"))
-model.to(device)
+model = FakeNewsModel()
+model.load_state_dict(torch.load("../data/model/resnet50_fft_epoch100_lr0.001.pth"))
+model = model.to(device)
 
 # Test
 model.eval()
@@ -26,11 +24,12 @@ with torch.no_grad():
     total = 0
     TP = FP = FN = 0
 
-    for images, labels in tqdm(test_loader):
+    for images, labels, fourier in tqdm(test_loader):
         images = images.to(device)
         labels = labels.to(device)
+        fourier = fourier.to(device)
 
-        outputs = model(images)
+        outputs = model(images, fourier)
         _, predicted = torch.max(outputs.detach(), 1)
         correct += torch.sum(predicted == labels).item()
         total += images.size(0)
