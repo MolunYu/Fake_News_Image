@@ -41,14 +41,16 @@ class FakeNewsModel(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.resnet = resnet50(pretrained=True)
+        self.backbone = resnet18(pretrained=True)
         self.fft = FFTNet()
-        self.fc = nn.Linear(2048 + 512, 2)
+        self.ela = resnet18(pretrained=True)
+        self.fc = nn.Linear(512 * 3, 2)
 
     def forward(self, *args):
-        semantic_feature = self.resnet(args[0])
-        physical_feature = self.fft(args[1])
-        feature = torch.cat((semantic_feature, physical_feature), 1)
+        semantic = self.backbone(args[0])
+        fft = self.fft(args[1])
+        ela = self.ela(args[2])
+        feature = torch.cat((semantic, fft, ela), 1)
         out = self.fc(feature)
 
         return out, feature

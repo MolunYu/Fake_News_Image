@@ -42,3 +42,25 @@ Test Precision of the model on the test images: 91.58 %
 Test Recall of the model on the test images: 89.36 %
 Test F1-score of the model on the test images: 90.46 %
 ```
+### Resnet50 with fft(256 dim by resnet18) after adaption
+```text
+Test Accuracy of the model on the test images: 92.78 %
+Test Precision of the model on the test images: 90.92 %
+Test Recall of the model on the test images: 91.05 %
+Test F1-score of the model on the test images: 90.98 %
+```
+### Resnet18 * 3 with fft and ela
+```text
+Test Accuracy of the model on the test images: 93.40 %
+Test Precision of the model on the test images: 93.37 %
+Test Recall of the model on the test images: 89.88 %
+Test F1-score of the model on the test images: 91.59 %
+
+```
+### Resnet18 * 3 with fft and ela after adaption
+```text
+Test Accuracy of the model on the test images: 93.55 %
+Test Precision of the model on the test images: 93.93 %
+Test Recall of the model on the test images: 89.66 %
+Test F1-score of the model on the test images: 91.74 %
+```

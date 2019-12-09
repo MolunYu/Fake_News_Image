@@ -1,29 +1,29 @@
 import torch
 import torch.nn as nn
-from FakeNewsDataset import FakeNewsDataset
+from FakeNewsDataset import PseudoDataset
 from FakeNewsModel import FakeNewsModel
 import torch.utils.data as data
-import torchvision
 import torchvision.transforms as transform
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-num_epochs = 80
+num_epochs = 40
 num_classes = 2
 batch_size = 128
-learning_rate = 0.001
+learning_rate = 0.0002
 transform = transform.Compose([transform.Resize((224, 224)), transform.ToTensor()])
 
-train_dataset = FakeNewsDataset(train=True, transform=transform)
+train_dataset = PseudoDataset(transform=transform)
 train_loader = data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True, num_workers=8)
 
 model = FakeNewsModel()
+model.load_state_dict(torch.load("../data/model/resnet18x3_fft_ela_epoch60.pth"))
 model = model.to(device)
 model.train()
 
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[40, 60, 80], gamma=0.5)
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5], gamma=0.5)
 
 # Train
 total_step = len(train_loader)
@@ -46,5 +46,6 @@ for epoch in range(num_epochs):
                                                                                loss.item(), scheduler.get_lr()))
     scheduler.step()
 
-    if (epoch + 1) % 20 == 0:
-        torch.save(model.state_dict(), "../data/model/resnet18x2_fft_ela_epoch{}.pth".format(epoch + 1))
+    if (epoch + 1) % 10 == 0:
+        torch.save(model.state_dict(),
+                   "../data/model/resnet18x3_fft_ela_adaption_epoch{}.pth".format(epoch + 1))
