@@ -32,18 +32,14 @@ model = FakeNewsModel()
 model.load_state_dict(torch.load("../data/model/resnet18x3_fft_ela_adaption_epoch30.pth"))
 model = model.to(device)
 
-prob_list = []
-label_list = []
-img_list = []
-
-# Test
+# Inference
 model.eval()
 with torch.no_grad():
-    correct = 0
-    total = 0
-    TP = FP = FN = 0
-
     #  Train
+    prob_list = []
+    label_list = []
+    img_list = []
+
     for images, labels, fourier, ela, img_path in tqdm(train_loader):
         images = images.to(device)
         fourier = fourier.to(device)
@@ -63,6 +59,10 @@ with torch.no_grad():
     fusion_feature.to_csv("../data/lgb/train_feature.csv", index=False)
 
     # Test
+    prob_list = []
+    label_list = []
+    img_list = []
+
     for images, labels, fourier, ela, img_path in tqdm(test_loader):
         images = images.to(device)
         fourier = fourier.to(device)
