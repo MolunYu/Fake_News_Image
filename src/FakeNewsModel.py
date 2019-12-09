@@ -53,4 +53,4 @@ class FakeNewsModel(nn.Module):
         feature = torch.cat((semantic, fft, ela), 1)
         out = self.fc(feature)
 
-        return out, feature
+        return out

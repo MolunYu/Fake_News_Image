@@ -6,13 +6,6 @@ import os
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
-def get_external_feature(img_path):
-    size = os.path.getsize(img_path)
-    img = Image.open(img_path)
-    l, h = img.size
-    return h, l, size, h * l
-
-
 def log_fft(img_path):
     img = Image.open(img_path).convert("L")
     f = np.fft.fft2(img)
