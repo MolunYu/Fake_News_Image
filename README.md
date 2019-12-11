@@ -64,3 +64,11 @@ Test Precision of the model on the test images: 93.93 %
 Test Recall of the model on the test images: 89.66 %
 Test F1-score of the model on the test images: 91.74 %
 ```
+
+### Lightgbm fusion fft, ela, cnn
+```text
+Test Accuracy of the model on the test images: 94.46 %
+Test Precision of the model on the test images: 96.09 %
+Test Recall of the model on the test images: 94.75 %
+Test F1-score of the model on the test images: 95.41 %
+```
