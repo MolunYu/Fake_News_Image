@@ -8,7 +8,7 @@ import torchvision.transforms as transform
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-num_epochs = 80
+num_epochs = 60
 num_classes = 2
 batch_size = 128
 learning_rate = 0.001
@@ -23,7 +23,7 @@ model.train()
 
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[40, 60, 80], gamma=0.5)
+scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[20, 40, 50], gamma=0.5)
 
 # Train
 total_step = len(train_loader)
